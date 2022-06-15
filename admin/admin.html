@@ -11,16 +11,22 @@
     
     <!-- Internal JS -->
     <script type = "module" src = "/tmt/firebaseConfig.js"></script>
-    
+    <script type = "module" src = "admin.js"></script>
     <!-- Email JS -->
     <script src="https://smtpjs.com/v3/smtp.js"></script>
     <!-- Internal CSS -->
     <link rel="stylesheet" href="/tmt/main.css">
-    <!-- <style>
-      .table-hover > tbody > tr:hover {
-          background-color: #ff0000;
-        }
-    </style> -->
+    <style>
+      .table-wrapper {
+        display: block;
+        height: 430px;
+        overflow-y: auto;
+        /* max-height: 430px;
+        overflow: auto;
+        display:inline-block;
+        width: 850px; */
+      }
+    </style>
 </head>
 <body>
   <!-- Navigation bar -->
@@ -48,7 +54,7 @@
               <label for="createTaskName">Task Name</label>
           </div>
           <div class="form-floating mt-3 mb-3">
-              <input type="number" class="form-control rounded-3" id="createTaskHourlyRate" placeholder="Hourly Rate" min="15">
+              <input type="number" class="form-control rounded-3" id="createTaskHourlyRate" value="15" placeholder="Hourly Rate" min="15">
               <label for="createTaskHourlyRate">Hourly Rate</label>
           </div>
           <div class="form-floating mt-3 mb-3">
@@ -79,7 +85,7 @@
           <!-- Tab panes -->
           <div class="tab-content">
             <div id="submittedTab" class="container tab-pane active"><br>
-              <table class="table table-hover" id="tableDisplaySubmittedTasks">
+              <table class="table table-hover table-wrapper" id="tableDisplaySubmittedTasks">
                   <tr>
                     <th scope="col">Task Name</th>
                     <th scope="col">Assigned To</th>
@@ -91,18 +97,18 @@
               </table>
             </div>
             <div id="inProgressTab" class="container tab-pane fade"><br>
-              <table class="table table-hover" id="tableDisplayInProgressTasks">
+              <table class="table table-hover table-wrapper" id="tableDisplayInProgressTasks">
                 <tr>
                   <th scope="col">Task Name</th>
                   <th scope="col">Assigned To</th>
-                  <th scope="col">Start Data</th>
+                  <th scope="col">Start Date</th>
                   <th scope="col">End Date</th>
                   <th scope="col">Hourly Rate</th>
                 </tr>
               </table>
             </div>
             <div id="completedTab" class="container tab-pane fade"><br>
-              <table class="table table-hover" id="tableDisplayCompletedTasks">
+              <table class="table table-hover table-wrapper" id="tableDisplayCompletedTasks">
                 <tr>
                   <th scope="col">Task Name</th>
                   <th scope="col">Assigned To</th>
@@ -113,7 +119,7 @@
               </table>
             </div>
             <div id="cancelledTab" class="container tab-pane fade"><br>
-              <table class="table table-hover" id="tableDisplayCancelledTasks">
+              <table class="table table-hover table-wrapper" id="tableDisplayCancelledTasks">
                 <tr>
                   <th scope="col">Task Name</th>
                   <th scope="col">Assigned To</th>
@@ -140,11 +146,25 @@
       
             <!-- Modal body -->
             <div class="modal-body">
-                <h2>To do...</h2>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control rounded-3" id="editTaskName" placeholder="Task Name" disabled>
+                <label for="editTaskName">Task Name</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control rounded-3" id="editTaskHourlyRate" placeholder="Hourly Rate">
+                <label for="editTaskHourlyRate">Hourly Rate</label>
+              </div>
+              <div class="form-floating mt-3 mb-3">
+                <textarea class="form-control" placeholder="Task description" id="editTaskDescription" style="height: 150px"></textarea>
+                <label for="editTaskDescription">Task description</label>
+              </div>
+              <div class="row align-items-md-stretch justify-content-around mt-3">
+                <button class="btn btn-outline-warning col-md-3" id="updateTask" type="button" data-bs-dismiss="modal">Update Task</button>
+                <button class="btn btn-outline-danger col-md-3" id="cancelTask" type="button" data-bs-dismiss="modal">Cancel Task</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <script type = "module" src = "admin.js"></script>
 </body>
 </html>

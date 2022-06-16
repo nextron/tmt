@@ -137,10 +137,21 @@ function displayTasks(tasks){
                 let endDateObject = new Date(elem.taksEndDateTime);
                 let endDateTimeString = endDateObject.toLocaleString();
                 endDate.innerHTML = endDateTimeString;
-                
                 hourlyRate.innerHTML = elem.taskHourlyRate;
 
-                console.log(msToTime(endDateObject - startDateObject));
+                //Calculations number of hours worked with moment js
+                let x = (endDateObject - startDateObject);
+                console.log(x);
+                let d = moment.duration(x, 'milliseconds');
+                let hours = Math.floor(d.asHours());
+                let mins = (Math.floor(d.asMinutes()) - hours * 60)/60;
+                console.log("Hours:" + hours + " Mins:" + mins);
+                hoursWorked.innerHTML = hours + mins + " Hours";
+                //console.log(msToTime(endDateObject - startDateObject));
+                 
+                //Expected Payemnt
+                let payment = (hours+mins) * elem.taskHourlyRate;
+                paymentExpected.innerHTML = payment + " $";
 
             }
         }
@@ -186,15 +197,15 @@ function updateTaskStatus(taskId){
     // console.log("update"+taskId);
 }
 
-function msToTime(duration) {
-    var milliseconds = parseInt((duration % 1000) / 100),
-      seconds = Math.floor((duration / 1000) % 60),
-      minutes = Math.floor((duration / (1000 * 60)) % 60),
-      hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+// function msToTime(duration) {
+//     var milliseconds = parseInt((duration % 1000) / 100),
+//       seconds = Math.floor((duration / 1000) % 60),
+//       minutes = Math.floor((duration / (1000 * 60)) % 60),
+//       hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
   
-    hours = (hours < 10) ? "0" + hours : hours;
-    minutes = (minutes < 10) ? "0" + minutes : minutes;
-    seconds = (seconds < 10) ? "0" + seconds : seconds;
+//     hours = (hours < 10) ? "0" + hours : hours;
+//     minutes = (minutes < 10) ? "0" + minutes : minutes;
+//     seconds = (seconds < 10) ? "0" + seconds : seconds;
   
-    return hours + "." + minutes;
-}
+//     return hours + "." + minutes;
+// }

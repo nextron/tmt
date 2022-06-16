@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, auth, db, set, get, child, ref, dbRef, onAuthStateChanged } from "./firebaseConfig.js"
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, auth, db, set, get, child, ref, dbRef } from "./firebaseConfig.js"
 
 
 //error message

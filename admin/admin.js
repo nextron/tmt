@@ -4,6 +4,7 @@ import Task from "../modal/task.js";
 //console.log(Date.now());
 //Variables to access the html doc
 var displayAdminUserName = document.getElementById("displayAdminUserName");
+var createTaskErrorMessage = document.getElementById("createTaskErrorMessage");
 
 //variable to store tasks
 var tasksData = [];
@@ -59,28 +60,36 @@ createTask.addEventListener('click', e => {
     task.taskDescription = createTaskDescription;
     task.taskStatus = "Submitted";
 
-    console.log(task);
-
-    set(ref(db,'tasks/'+taskId),task).then(() => {
-        getAllTasks();
-        document.getElementById("createTaskAssigneeEmail").value = "";
-        document.getElementById("createTaskName").value = "";
-        document.getElementById("createTaskHourlyRate").value = "15";
-        document.getElementById("createTaskDescription").value = "";
-        Email.send({
-            Host : "smtp.elasticemail.com",
-            Username : "manisingh893@gmail.com",
-            Password : "B75BE9FCDE041C22B9B7B88113E43791045B",
-            To : task.assignedTo,
-            From : "manisingh893@gmail.com",
-            Subject : "Task Assignment - "+taskId,
-            Body : "New Task has been assigned to you. Please continue to SignIn/SignUp to start working on the task."
-        }).then(
-          console.log("sent")
-        );
-    }).catch((error) => {
-        console.error(error);
-    });
+    //console.log(task);
+    if(createTaskAssigneeEmail == "" || createTaskName == "" || createTaskDescription == "" || createTaskHourlyRate == ""){
+        createTaskErrorMessage.innerHTML = "Task Name, Assignee Email, Hourly Rate and, Task Description cannot be empty";
+    }else{
+        if(createTaskHourlyRate < 15){
+            createTaskErrorMessage.innerHTML = "Hourly Rate cannot be less than 15$."
+        }else{
+            createTaskErrorMessage.innerHTML = "";
+            set(ref(db,'tasks/'+taskId),task).then(() => {
+                getAllTasks();
+                document.getElementById("createTaskAssigneeEmail").value = "";
+                document.getElementById("createTaskName").value = "";
+                document.getElementById("createTaskHourlyRate").value = "15";
+                document.getElementById("createTaskDescription").value = "";
+                Email.send({
+                    Host : "smtp.elasticemail.com",
+                    Username : "manisingh893@gmail.com",
+                    Password : "B75BE9FCDE041C22B9B7B88113E43791045B",
+                    To : task.assignedTo,
+                    From : "manisingh893@gmail.com",
+                    Subject : "Task Assignment - "+taskId,
+                    Body : "New Task has been assigned to you. Please continue to SignIn/SignUp to start working on the task."
+                }).then(
+                console.log("sent")
+                );
+            }).catch((error) => {
+                console.error(error);
+            });
+        }
+    }
 })
 
 //function to SignOut and redirect to SignIn page
@@ -208,8 +217,8 @@ function updateEditModalDetails(taskId){
     //let modal = document.getElementById("");
     let editModal = new bootstrap.Modal(document.getElementById('editModel'), {});
     editModal.show();
-    console.log("clicked");
-    console.log(firebaseDataObj[taskId]);
+    //console.log("clicked");
+    //console.log(firebaseDataObj[taskId]);
     
     selectedTaskId = taskId;
     //Accessing edit task modal items
@@ -225,7 +234,6 @@ function updateEditModalDetails(taskId){
 //update Task 
 updateTask.addEventListener('click', (e) => {
     //
-
     const updates = {};
     let editTaskHourlyRate = document.getElementById("editTaskHourlyRate");
     let editTaskDescription = document.getElementById("editTaskDescription");
@@ -252,7 +260,7 @@ cancelTask.addEventListener('click', (e) => {
 function clearTable(tableName){
     let table = document.getElementById(tableName);
     let rowCount = table.rows.length;
-    console.log("rowCount",rowCount);
+    //console.log("rowCount",rowCount);
     for (let i = 1; i < rowCount; i++) {
         //console.log(index)
         table.deleteRow(1);

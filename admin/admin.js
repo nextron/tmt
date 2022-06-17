@@ -177,9 +177,13 @@ function displayTasks(tasks){
             let startDate = row.insertCell(2);
             let endDate = row.insertCell(3);
             let hourlyRate = row.insertCell(4);
+
             taskName.innerHTML = elem.taskName;
-            startDate.innerHTML = elem.taskStartDateTime;
-            endDate.innerHTML = elem.taksEndDateTime;
+            let date = new Date(elem.taskStartDateTime);
+            let startDateTimeString = date.toLocaleString();
+            startDate.innerHTML = startDateTimeString;
+            startDate.innerHTML = startDateTimeString;
+            endDate.innerHTML = "In Progress";
             assignedTo.innerHTML = elem.assignedTo;
             hourlyRate.innerHTML = elem.taskHourlyRate; 
         }else if(elem.taskStatus == "Completed"){
@@ -188,13 +192,26 @@ function displayTasks(tasks){
             let assignedTo = row.insertCell(1);
             let startDate = row.insertCell(2);
             let endDate = row.insertCell(3);
-            let hourlyRate = row.insertCell(4);
+            //let hourlyRate = row.insertCell(4);
+            let moreDetailsButton = row.insertCell(4);
             taskName.innerHTML = elem.taskName;
-            startDate.innerHTML = elem.taskStartDateTime;
-            endDate.innerHTML = elem.taksEndDateTime;
+            // User Start Task Date Time
+            let startDateObject = new Date(elem.taskStartDateTime);
+            let startDateTimeString = startDateObject.toLocaleString();
+            //User End Task Date Time
+            let endDateObject = new Date(elem.taksEndDateTime);
+            let endDateTimeString = endDateObject.toLocaleString();
+            startDate.innerHTML = startDateTimeString;
+            endDate.innerHTML = endDateTimeString;
             assignedTo.innerHTML = elem.assignedTo;
-            hourlyRate.innerHTML = elem.taskHourlyRate; 
+            //hourlyRate.innerHTML = elem.taskHourlyRate; 
             //console.log("Completed");
+            let btn = document.createElement('input');
+            btn.type = "button";
+            btn.className = "btn btn-outline-info";
+            btn.value = "Info";
+            btn.onclick = (function() {return function() {displayMoreDetails(elem.taskId);}})("");
+            moreDetailsButton.appendChild(btn);
         }else if(elem.taskStatus == "Cancelled"){
             let row = tableDisplayCancelledTasks.insertRow();
             let taskName = row.insertCell(0);
@@ -212,6 +229,33 @@ function displayTasks(tasks){
     }
 }
 
+
+//function to display details of a completed task
+function displayMoreDetails(taskId){
+    let displayDetails = new bootstrap.Modal(document.getElementById('completedTaskDetailsModal'), {});
+    displayDetails.show();
+    //accessing UI elements
+    let displayTaskHourlyRate = document.getElementById("displayTaskHourlyRate");
+    let displayTasKHours = document.getElementById("displayTasKHours");
+    let displayExpectedPayout = document.getElementById("displayExpectedPayout");
+    //geeting start and end date in milliseconds
+    let startDateObject = new Date(firebaseDataObj[taskId].taskStartDateTime);
+    let endDateObject = new Date(firebaseDataObj[taskId].taksEndDateTime);
+    //Calculations number of hours worked with moment js
+    let x = (endDateObject - startDateObject);
+    //console.log(x);
+    let d = moment.duration(x, 'milliseconds');
+    let hours = Math.floor(d.asHours());
+    let mins = (Math.floor(d.asMinutes()) - hours * 60)/60;
+
+    //Expected Payemnt
+    let payment = (hours+mins) * firebaseDataObj[taskId].taskHourlyRate;
+
+    //displaying data in the modal
+    displayTaskHourlyRate.innerHTML = "Hourly Rate: " + firebaseDataObj[taskId].taskHourlyRate;
+    displayTasKHours.innerHTML = "Hours Worked: " + hours + mins;
+    displayExpectedPayout.innerHTML = "Expected Payout: " + payment + " $";
+}
 //function to update modal details
 function updateEditModalDetails(taskId){
     //let modal = document.getElementById("");

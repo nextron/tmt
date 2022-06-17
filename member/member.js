@@ -141,11 +141,11 @@ function displayTasks(tasks){
 
                 //Calculations number of hours worked with moment js
                 let x = (endDateObject - startDateObject);
-                console.log(x);
+                //console.log(x);
                 let d = moment.duration(x, 'milliseconds');
                 let hours = Math.floor(d.asHours());
                 let mins = (Math.floor(d.asMinutes()) - hours * 60)/60;
-                console.log("Hours:" + hours + " Mins:" + mins);
+                //console.log("Hours:" + hours + " Mins:" + mins);
                 hoursWorked.innerHTML = hours + mins + " Hours";
                 //console.log(msToTime(endDateObject - startDateObject));
                  

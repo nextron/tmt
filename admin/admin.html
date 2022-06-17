@@ -12,6 +12,9 @@
     <!-- Internal JS -->
     <script type = "module" src = "/tmt/firebaseConfig.js"></script>
     <script type = "module" src = "admin.js"></script>
+    <!-- Moment js -->
+    <script type = "text/JavaScript" src = " https://MomentJS.com/downloads/moment.js"></script>
+
     <!-- Email JS -->
     <script src="https://smtpjs.com/v3/smtp.js"></script>
     <!-- Internal CSS -->
@@ -115,7 +118,7 @@
                   <th scope="col">Assigned To</th>
                   <th scope="col">Start Data</th>
                   <th scope="col">End Date</th>
-                  <th scope="col">Hourly Rate</th>
+                  <th scope="col">More Info</th>
                 </tr>
               </table>
             </div>
@@ -134,7 +137,7 @@
         </div>
       </div>
     </div>
-        <!-- Edit Task Modal -->
+    <!-- Edit Task Modal -->
     <div class="modal fade" id="editModel">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -162,6 +165,31 @@
               <div class="row align-items-md-stretch justify-content-around mt-3">
                 <button class="btn btn-outline-warning col-md-3" id="updateTask" type="button" data-bs-dismiss="modal">Update Task</button>
                 <button class="btn btn-outline-danger col-md-3" id="cancelTask" type="button" data-bs-dismiss="modal">Cancel Task</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Details Task Modal -->
+      <div class="modal fade" id="completedTaskDetailsModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+      
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">More Info</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+      
+            <!-- Modal body -->
+            <div class="modal-body">
+              <div style="margin-left: 5%">
+                <h5 id="displayTaskHourlyRate">test</h5>
+                <h5 id="displayTasKHours">test</h5>
+                <h5 id="displayExpectedPayout">test</h5>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-outline-danger col-md-3" type="button" data-bs-dismiss="modal">Close</button>
               </div>
             </div>
           </div>
